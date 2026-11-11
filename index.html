@@ -1,0 +1,1773 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paro AI — Next-Gen AI Assistant | Created by Dharmender Sharma</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            paro: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              accent: '#8b5cf6',
+              glow: '#06b6d4'
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 4s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-6px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.25);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.45);
+    }
+    /* Ambient Background Glows */
+    .paro-bg-mesh {
+      background-color: #070b14;
+      background-image:
+        radial-gradient(at 12% 15%, rgba(14, 165, 233, 0.12) 0px, transparent 45%),
+        radial-gradient(at 88% 12%, rgba(139, 92, 246, 0.12) 0px, transparent 45%),
+        radial-gradient(at 50% 88%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+    }
+    /* Glowing Paro Logo Ring */
+    .paro-logo-glow {
+      box-shadow: 0 0 25px -3px rgba(14, 165, 233, 0.5), 0 0 12px -2px rgba(139, 92, 246, 0.5);
+    }
+    /* Markdown Content Styling */
+    .markdown-body p {
+      margin-bottom: 0.75rem;
+      line-height: 1.68;
+    }
+    .markdown-body p:last-child {
+      margin-bottom: 0;
+    }
+    .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+      font-weight: 700;
+      margin-top: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #f8fafc;
+    }
+    .markdown-body h1 { font-size: 1.35rem; }
+    .markdown-body h2 { font-size: 1.2rem; }
+    .markdown-body h3 { font-size: 1.05rem; }
+    .markdown-body ul {
+      list-style-type: disc;
+      padding-left: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .markdown-body ol {
+      list-style-type: decimal;
+      padding-left: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .markdown-body li {
+      margin-bottom: 0.28rem;
+      line-height: 1.6;
+    }
+    .markdown-body blockquote {
+      border-left: 3px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 0.6rem 1rem;
+      border-radius: 0.375rem;
+      margin: 0.75rem 0;
+      color: #cbd5e1;
+      font-style: italic;
+    }
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.85rem 0;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      display: block;
+    }
+    .markdown-body th, .markdown-body td {
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .markdown-body th {
+      background: rgba(30, 41, 59, 0.9);
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .markdown-body tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.4);
+    }
+    .markdown-body a {
+      color: #38bdf8;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .markdown-body hr {
+      border-color: rgba(51, 65, 85, 0.7);
+      margin: 1rem 0;
+    }
+    /* Streaming Cursor Effect */
+    .streaming-cursor::after {
+      content: '▋';
+      display: inline-block;
+      color: #38bdf8;
+      animation: blink 0.9s steps(2, start) infinite;
+      margin-left: 3px;
+      font-size: 0.9em;
+    }
+    @keyframes blink {
+      to { visibility: hidden; }
+    }
+    /* Voice Recording Pulse */
+    .mic-recording {
+      animation: micPulse 1.3s infinite;
+    }
+    @keyframes micPulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+  </style>
+</head>
+<body class="paro-bg-mesh text-slate-100 font-sans antialiased h-screen w-screen overflow-hidden flex select-none md:select-auto">
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebarBackdrop" onclick="toggleSidebar(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity"></div>
+  <!-- ================= LEFT SIDEBAR ================= -->
+  <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-slate-900/90 backdrop-blur-xl border-r border-slate-800/80 flex flex-col transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0">
+    
+    <!-- Brand Header -->
+    <div class="p-4 border-b border-slate-800/80 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Custom SVG Paro AI Logo -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 via-cyan-400 to-violet-600 p-0.5 paro-logo-glow flex-shrink-0">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-6 h-6 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L14.8 8.5L22 9.3L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.3L9.2 8.5L12 2Z" class="stroke-sky-400 fill-sky-500/20"/>
+              <circle cx="12" cy="12" r="3" class="fill-violet-400 stroke-none"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-sky-200 to-violet-300 bg-clip-text text-transparent">Paro AI</span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/30">v2.5</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+            <i class="fa-solid fa-code text-[9px] text-sky-400"></i>
+            By <span class="text-sky-300 font-semibold">Dharmender Sharma</span>
+          </p>
+        </div>
+      </div>
+      <button onclick="toggleSidebar(false)" class="lg:hidden text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800/60">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+    <!-- New Chat Button & Search -->
+    <div class="p-3 space-y-2.5">
+      <button onclick="createNewChat()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-violet-600 hover:from-sky-400 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-sky-500/20 hover:shadow-sky-500/35 transition-all flex items-center justify-center gap-2 group">
+        <i class="fa-solid fa-plus transition-transform group-hover:rotate-90"></i>
+        <span>New Conversation</span>
+      </button>
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+        <input id="chatSearchInput" oninput="renderChatList()" type="text" placeholder="Search chats..." class="w-full bg-slate-950/70 border border-slate-800 focus:border-sky-500/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none transition-colors" />
+      </div>
+    </div>
+    <!-- Conversation List -->
+    <div class="px-3 py-1 flex items-center justify-between">
+      <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Conversations</span>
+      <button onclick="clearAllChats()" title="Clear all chats" class="text-[11px] text-slate-500 hover:text-rose-400 transition-colors">
+        Clear All
+      </button>
+    </div>
+    <div id="chatHistoryList" class="flex-1 overflow-y-auto px-2.5 py-1 space-y-1">
+      <!-- Populated dynamically -->
+    </div>
+    <!-- Sidebar Footer: Neural Engine Status & Creator Card -->
+    <div class="p-3 border-t border-slate-800/80 space-y-2.5 bg-slate-950/40">
+      <!-- Paro Neural Engine Connection Card -->
+      <div onclick="openSettingsModal('api')" class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-sky-500/40 cursor-pointer transition-all group">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
+            <span id="sidebarApiDot" class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+            <span id="sidebarApiStatusText">Paro Native Core</span>
+          </span>
+          <i class="fa-solid fa-key text-xs text-slate-400 group-hover:text-sky-400 transition-colors"></i>
+        </div>
+        <p id="sidebarApiSubtext" class="text-[11px] text-slate-400 truncate">Configure Paro AI Access Key</p>
+      </div>
+      <!-- Creator Attribution Badge -->
+      <div class="px-3 py-2 rounded-xl bg-gradient-to-r from-sky-950/60 via-slate-900 to-violet-950/60 border border-sky-500/20 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-400 font-bold text-xs">
+            DS
+          </div>
+          <div class="leading-tight">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400">Architected & Created by</div>
+            <div class="text-xs font-bold text-sky-300">Dharmender Sharma</div>
+          </div>
+        </div>
+        <button onclick="openSettingsModal('about')" title="About Paro AI" class="text-slate-400 hover:text-sky-300 text-xs p-1.5">
+          <i class="fa-solid fa-circle-info"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+  <!-- ================= MAIN CHAT AREA ================= -->
+  <div class="flex-1 flex flex-col h-full min-w-0 relative">
+    <!-- Top Navigation Bar -->
+    <header class="h-16 border-b border-slate-800/80 bg-slate-900/75 backdrop-blur-xl px-3 sm:px-6 flex items-center justify-between gap-2 z-20 flex-shrink-0">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <button onclick="toggleSidebar(true)" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors">
+          <i class="fa-solid fa-bars text-base"></i>
+        </button>
+        <!-- Proprietary Paro Neural Engine Selector -->
+        <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-950/80 border border-slate-800 rounded-xl px-2.5 py-1.5 max-w-[230px] sm:max-w-xs md:max-w-md">
+          <i class="fa-solid fa-microchip text-sky-400 text-xs flex-shrink-0"></i>
+          <select id="modelSelect" onchange="handleModelChange(this.value)" class="bg-transparent text-xs sm:text-sm font-medium text-slate-200 focus:outline-none truncate w-full cursor-pointer">
+            <optgroup label="Paro Neural Engines • By Dharmender Sharma" class="bg-slate-900 text-slate-200">
+              <option value="paro-x1-flash">Paro-X1 Flash — Ultra-Fast Everyday Intelligence</option>
+              <option value="paro-x2-pro">Paro-X2 Pro — Deep Reasoning & Logic Engine</option>
+              <option value="paro-x3-coder">Paro-X3 Coder — Full-Stack Software & Architecture</option>
+              <option value="paro-x4-creative">Paro-X4 Creative — Writing, Ideation & Strategy</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <!-- Right Header Controls -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <!-- Creator Pill on Desktop -->
+        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/25 text-xs text-sky-300">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+          <span>Created by <strong>Dharmender Sharma</strong></span>
+        </div>
+        <!-- Paro Access Key Quick Button -->
+        <button onclick="openSettingsModal('api')" id="headerApiBtn" class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 bg-sky-500/10 border-sky-500/30 text-sky-300 hover:bg-sky-500/20">
+          <i class="fa-solid fa-key"></i>
+          <span id="headerApiBtnText">Access Key</span>
+        </button>
+        <!-- Export Chat Button -->
+        <button onclick="exportCurrentChat('md')" title="Export Chat as Markdown" class="p-2 rounded-xl bg-slate-800/70 hover:bg-slate-700/70 text-slate-300 hover:text-white border border-slate-700/60 transition-colors">
+          <i class="fa-solid fa-download text-xs sm:text-sm"></i>
+        </button>
+        <!-- Settings Button -->
+        <button onclick="openSettingsModal('general')" title="Paro AI Settings" class="p-2 rounded-xl bg-slate-800/70 hover:bg-slate-700/70 text-slate-300 hover:text-white border border-slate-700/60 transition-colors">
+          <i class="fa-solid fa-sliders text-xs sm:text-sm"></i>
+        </button>
+      </div>
+    </header>
+    <!-- Messages Scroll Container -->
+    <main id="chatContainer" class="flex-1 overflow-y-auto px-3 sm:px-6 py-6 space-y-6 scroll-smooth">
+      
+      <!-- Welcome Screen (Displayed when current chat has 0 messages) -->
+      <div id="welcomeScreen" class="max-w-3xl mx-auto my-auto py-4 sm:py-8 flex flex-col items-center text-center">
+        <!-- Animated Paro AI Emblem -->
+        <div class="relative mb-5 animate-float">
+          <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-sky-500 via-cyan-400 to-violet-600 p-0.5 paro-logo-glow">
+            <div class="w-full h-full bg-slate-950 rounded-[22px] flex items-center justify-center">
+              <svg class="w-11 h-11 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L14.8 8.5L22 9.3L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.3L9.2 8.5L12 2Z" class="stroke-sky-400 fill-sky-500/20"/>
+                <circle cx="12" cy="12" r="3.2" class="fill-violet-400 stroke-none"/>
+              </svg>
+            </div>
+          </div>
+          <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-slate-950 flex items-center justify-center text-[10px] text-slate-950 font-bold">
+            <i class="fa-solid fa-bolt"></i>
+          </span>
+        </div>
+        <!-- Creator Badge Pill -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-sky-500/15 via-violet-500/15 to-cyan-500/15 border border-sky-400/30 text-sky-300 text-xs font-semibold mb-3 shadow-sm">
+          <i class="fa-solid fa-wand-magic-sparkles text-violet-400"></i>
+          <span>Paro AI • Created by Dharmender Sharma</span>
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mb-2.5">
+          Hello, I'm <span class="bg-gradient-to-r from-sky-400 via-cyan-300 to-violet-400 bg-clip-text text-transparent">Paro AI</span>
+        </h1>
+        <p class="text-slate-400 text-xs sm:text-sm max-w-xl leading-relaxed mb-6">
+          Your proprietary next-generation AI assistant exclusively engineered and created by <strong class="text-slate-200">Dharmender Sharma</strong>. Powered by the <strong class="text-sky-300">Paro Neural Engine</strong> for advanced reasoning, coding, and creative intelligence.
+        </p>
+        <!-- Quick Neural Engine / Access Key Banner -->
+        <div id="welcomeApiBanner" class="w-full max-w-2xl mb-7 p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 flex-shrink-0">
+              <i class="fa-solid fa-microchip text-lg"></i>
+            </div>
+            <div>
+              <div id="welcomeBannerTitle" class="text-xs sm:text-sm font-semibold text-white">Paro Neural Engine Ready</div>
+              <div id="welcomeBannerDesc" class="text-[11px] sm:text-xs text-slate-400">Connect your Paro AI Access Key for live cloud neural streaming, or chat immediately using the built-in Paro Native Core.</div>
+            </div>
+          </div>
+          <button onclick="openSettingsModal('api')" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition-all whitespace-nowrap flex-shrink-0">
+            Configure Access Key
+          </button>
+        </div>
+        <!-- Starter Prompt Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl text-left">
+          <button onclick="sendStarterPrompt('Who are you and who created you? Tell me about your capabilities.')" class="p-3.5 rounded-2xl bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800 hover:border-sky-500/40 transition-all group flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform flex-shrink-0">
+              <i class="fa-solid fa-id-card-clip"></i>
+            </div>
+            <div>
+              <div class="text-xs sm:text-sm font-semibold text-slate-100 group-hover:text-sky-300 transition-colors">Who are you & who created you?</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Learn about Paro AI & Dharmender Sharma</div>
+            </div>
+          </button>
+          <button onclick="sendStarterPrompt('Write a clean, well-commented Python script to fetch weather data from an API and display summary statistics.')" class="p-3.5 rounded-2xl bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800 hover:border-violet-500/40 transition-all group flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-violet-500/15 border border-violet-500/30 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform flex-shrink-0">
+              <i class="fa-brands fa-python"></i>
+            </div>
+            <div>
+              <div class="text-xs sm:text-sm font-semibold text-slate-100 group-hover:text-violet-300 transition-colors">Write a Python API script</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Generate clean, production-ready code</div>
+            </div>
+          </button>
+          <button onclick="sendStarterPrompt('Explain quantum computing in simple terms with a real-world analogy and a comparison table vs classical computers.')" class="p-3.5 rounded-2xl bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/40 transition-all group flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform flex-shrink-0">
+              <i class="fa-solid fa-atom"></i>
+            </div>
+            <div>
+              <div class="text-xs sm:text-sm font-semibold text-slate-100 group-hover:text-emerald-300 transition-colors">Explain Quantum Computing</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Simple breakdown with comparison table</div>
+            </div>
+          </button>
+          <button onclick="sendStarterPrompt('Help me draft a polished, high-converting project proposal email to a client with clear deliverables and timeline.')" class="p-3.5 rounded-2xl bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800 hover:border-amber-500/40 transition-all group flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform flex-shrink-0">
+              <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div>
+              <div class="text-xs sm:text-sm font-semibold text-slate-100 group-hover:text-amber-300 transition-colors">Draft a Professional Email</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Executive client proposal template</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- Dynamic Messages List -->
+      <div id="messagesList" class="max-w-3xl mx-auto space-y-5 pb-4"></div>
+    </main>
+    <!-- ================= BOTTOM INPUT COMPOSER ================= -->
+    <footer class="px-3 sm:px-6 pb-3 pt-2 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent z-10">
+      <div class="max-w-3xl mx-auto">
+        <!-- Stop Generating Button (Visible only while streaming) -->
+        <div id="stopGeneratingWrap" class="hidden justify-center mb-2.5">
+          <button onclick="stopGeneration()" class="px-4 py-1.5 rounded-full bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-semibold flex items-center gap-2 shadow-lg backdrop-blur-md transition-all">
+            <i class="fa-solid fa-stop"></i>
+            <span>Stop Generating</span>
+          </button>
+        </div>
+        <!-- Persona Quick Pills -->
+        <div class="flex items-center justify-between gap-2 mb-2 overflow-x-auto no-scrollbar py-0.5">
+          <div class="flex items-center gap-1.5 text-[11px]">
+            <span class="text-slate-500 font-medium mr-1 hidden sm:inline">Persona:</span>
+            <button onclick="applyPersonaPreset('default')" id="persona-default" class="persona-pill px-2.5 py-1 rounded-lg bg-sky-500/20 border border-sky-500/40 text-sky-300 font-medium transition-all whitespace-nowrap">
+              ✨ Paro AI Default
+            </button>
+            <button onclick="applyPersonaPreset('coder')" id="persona-coder" class="persona-pill px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 transition-all whitespace-nowrap">
+              💻 Senior Coder
+            </button>
+            <button onclick="applyPersonaPreset('creative')" id="persona-creative" class="persona-pill px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 transition-all whitespace-nowrap">
+              🎨 Creative Writer
+            </button>
+            <button onclick="applyPersonaPreset('concise')" id="persona-concise" class="persona-pill px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 transition-all whitespace-nowrap">
+              ⚡ Concise Analyst
+            </button>
+          </div>
+          <span id="charCountLabel" class="text-[11px] text-slate-500 font-mono hidden sm:inline">0 chars</span>
+        </div>
+        <!-- Input Box Wrapper -->
+        <div class="relative rounded-2xl bg-slate-900/95 border border-slate-700/80 focus-within:border-sky-500/70 shadow-2xl shadow-black/50 transition-all p-2 sm:p-2.5 flex items-end gap-2">
+          
+          <!-- Voice Input Button (Speech-to-Text) -->
+          <button id="voiceInputBtn" onclick="toggleVoiceInput()" title="Voice Input (Speech-to-Text)" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-sky-400 flex items-center justify-center transition-all flex-shrink-0">
+            <i id="voiceInputIcon" class="fa-solid fa-microphone text-sm"></i>
+          </button>
+          <!-- Auto-expanding Textarea -->
+          <textarea
+            id="userInput"
+            rows="1"
+            placeholder="Ask Paro AI anything... (Enter to send, Shift+Enter for new line)"
+            oninput="autoResizeTextarea(this)"
+            onkeydown="handleInputKeydown(event)"
+            class="w-full max-h-40 bg-transparent text-slate-100 placeholder-slate-500 text-sm leading-relaxed focus:outline-none resize-none py-1.5 px-1"
+          ></textarea>
+          <!-- Send Message Button -->
+          <button
+            id="sendBtn"
+            onclick="sendMessage()"
+            class="w-9 h-9 rounded-xl bg-gradient-to-r from-sky-500 to-violet-600 hover:from-sky-400 hover:to-violet-500 text-white flex items-center justify-center shadow-md shadow-sky-500/20 transition-all flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+            title="Send Message"
+          >
+            <i class="fa-solid fa-paper-plane text-xs"></i>
+          </button>
+        </div>
+        <!-- Footer Attribution Line -->
+        <div class="mt-2 flex flex-wrap items-center justify-between text-[11px] text-slate-500 px-1">
+          <span>
+            <strong class="text-slate-400">Paro AI</strong> • Engineered & Created by <strong class="text-sky-400">Dharmender Sharma</strong>
+          </span>
+          <span class="flex items-center gap-2">
+            <span id="footerModeLabel" class="text-slate-400">Powered by Paro Neural Engine</span>
+          </span>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- ================= SETTINGS & ACCESS KEY MODAL ================= -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-fadeIn">
+      
+      <!-- Modal Header -->
+      <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/50">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-white">Paro AI Control Center</h2>
+            <p class="text-[11px] text-slate-400">Created by Dharmender Sharma • Paro Neural Engine Configuration</p>
+          </div>
+        </div>
+        <button onclick="closeSettingsModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <!-- Modal Tabs -->
+      <div class="flex border-b border-slate-800 bg-slate-950/30 px-5 gap-4 text-xs font-semibold">
+        <button onclick="switchModalTab('api')" id="tabBtn-api" class="py-3 border-b-2 border-sky-400 text-sky-400 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-key"></i> Paro Access Key
+        </button>
+        <button onclick="switchModalTab('general')" id="tabBtn-general" class="py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-brain"></i> Prompt & Parameters
+        </button>
+        <button onclick="switchModalTab('about')" id="tabBtn-about" class="py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-user-astronaut"></i> Creator & About
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="p-5 overflow-y-auto space-y-5 flex-1 text-sm">
+        <!-- TAB 1: PARO AI ACCESS KEY -->
+        <div id="tabContent-api" class="space-y-4">
+          <div class="p-3.5 rounded-xl bg-sky-500/10 border border-sky-500/25 text-xs text-slate-300 leading-relaxed">
+            <div class="font-semibold text-sky-300 mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>100% Client-Side Privacy & Security</span>
+            </div>
+            Your <strong>Paro AI Access Key</strong> is stored strictly inside your browser's local storage and is used exclusively to authenticate live neural streaming with the <strong>Paro Neural Engine</strong> architected by <strong>Dharmender Sharma</strong>.
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              Paro AI Access Key
+            </label>
+            <div class="relative flex items-center">
+              <input
+                id="apiKeyInput"
+                type="password"
+                placeholder="Enter your Paro AI Access Key..."
+                class="w-full bg-slate-950 border border-slate-700 focus:border-sky-500 rounded-xl pl-3.5 pr-20 py-2.5 text-xs sm:text-sm font-mono text-slate-100 focus:outline-none"
+              />
+              <button
+                type="button"
+                onclick="toggleApiKeyVisibility()"
+                class="absolute right-2.5 px-2 py-1 text-xs text-slate-400 hover:text-white"
+                title="Show/Hide Key"
+              >
+                <i id="apiKeyEyeIcon" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-1.5 text-[11px] text-slate-400">
+              <span>Enter your personal Paro AI Access Key to activate live cloud neural engines (X1–X4).</span>
+            </div>
+          </div>
+          <!-- Action Buttons for Access Key -->
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <button onclick="saveApiKey()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-violet-600 hover:from-sky-400 hover:to-violet-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-md">
+              <i class="fa-solid fa-floppy-disk"></i> Save Access Key
+            </button>
+            <button onclick="verifyApiKey()" id="verifyKeyBtn" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 font-semibold text-xs flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-check"></i> Verify Access Key
+            </button>
+            <button onclick="clearApiKey()" class="px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 font-semibold text-xs flex items-center gap-1.5 ml-auto">
+              <i class="fa-solid fa-trash-can"></i> Clear Key
+            </button>
+          </div>
+          <!-- Key Verification Result Box -->
+          <div id="keyVerifyResult" class="hidden p-3 rounded-xl border text-xs"></div>
+          <!-- Built-in Paro Native Core Fallback Switch -->
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Paro Native Core (Instant Built-In Intelligence)</div>
+              <div class="text-[11px] text-slate-400">Respond immediately using Paro AI's built-in offline core when no Access Key is entered.</div>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input id="demoModeToggle" type="checkbox" checked onchange="saveSettingsFromModal()" class="sr-only peer">
+              <div class="w-10 h-5 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-sky-500"></div>
+            </label>
+          </div>
+        </div>
+        <!-- TAB 2: PROMPT & PARAMETERS -->
+        <div id="tabContent-general" class="hidden space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-semibold uppercase tracking-wider text-slate-300">System Prompt (Paro AI Identity)</label>
+              <button onclick="resetSystemPrompt()" class="text-[11px] text-sky-400 hover:underline">Reset to Default</button>
+            </div>
+            <textarea
+              id="systemPromptInput"
+              rows="4"
+              class="w-full bg-slate-950 border border-slate-700 focus:border-sky-500 rounded-xl p-3 text-xs text-slate-200 leading-relaxed focus:outline-none"
+            ></textarea>
+          </div>
+          <!-- Temperature Slider -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="font-semibold text-slate-300">Temperature</span>
+                <span id="tempValueLabel" class="font-mono text-sky-400">0.7</span>
+              </div>
+              <input id="tempSlider" type="range" min="0" max="2" step="0.1" value="0.7" oninput="document.getElementById('tempValueLabel').textContent = this.value" class="w-full accent-sky-500 cursor-pointer" />
+              <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                <span>Precise (0.0)</span>
+                <span>Balanced (0.7)</span>
+                <span>Creative (2.0)</span>
+              </div>
+            </div>
+            <!-- Max Tokens Slider -->
+            <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="font-semibold text-slate-300">Max Tokens</span>
+                <span id="tokensValueLabel" class="font-mono text-sky-400">2048</span>
+              </div>
+              <input id="tokensSlider" type="range" min="256" max="8192" step="256" value="2048" oninput="document.getElementById('tokensValueLabel').textContent = this.value" class="w-full accent-sky-500 cursor-pointer" />
+              <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                <span>256</span>
+                <span>2048</span>
+                <span>8192</span>
+              </div>
+            </div>
+          </div>
+          <!-- Stream Responses Toggle -->
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+            <div>
+              <div class="text-xs font-semibold text-slate-200">Real-Time Token Streaming (SSE)</div>
+              <div class="text-[11px] text-slate-400">Stream responses word-by-word as Paro AI thinks.</div>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input id="streamToggle" type="checkbox" checked class="sr-only peer">
+              <div class="w-10 h-5 bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-sky-500"></div>
+            </label>
+          </div>
+          <!-- Export Chat Options -->
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-300">Export Current Conversation</span>
+            <div class="flex gap-2">
+              <button onclick="exportCurrentChat('md')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">
+                <i class="fa-solid fa-file-lines mr-1 text-sky-400"></i> Markdown (.md)
+              </button>
+              <button onclick="exportCurrentChat('json')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">
+                <i class="fa-solid fa-file-code mr-1 text-violet-400"></i> JSON (.json)
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- TAB 3: CREATOR & ABOUT -->
+        <div id="tabContent-about" class="hidden space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-sky-950/70 via-slate-900 to-violet-950/70 border border-sky-500/30 text-center space-y-3">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-violet-600 mx-auto p-0.5 paro-logo-glow">
+              <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-xl font-extrabold text-sky-400">
+                DS
+              </div>
+            </div>
+            <div>
+              <span class="text-[11px] font-semibold uppercase tracking-widest text-sky-400">Creator & Chief Architect</span>
+              <h3 class="text-xl font-extrabold text-white mt-0.5">Dharmender Sharma</h3>
+              <p class="text-xs text-slate-300 mt-1 max-w-md mx-auto leading-relaxed">
+                <strong>Paro AI</strong> is a proprietary conversational intelligence system created and architected exclusively by <strong>Dharmender Sharma</strong>, powered by the multi-stage <strong>Paro Neural Engine (X1–X4)</strong> for high-speed reasoning, code synthesis, and creative problem solving.
+              </p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 pt-2">
+              <span class="px-2.5 py-1 rounded-full bg-slate-950/80 border border-slate-800 text-[11px] text-sky-300">Paro Neural Engine v2.5</span>
+              <span class="px-2.5 py-1 rounded-full bg-slate-950/80 border border-slate-800 text-[11px] text-violet-300">Real-Time Neural Streaming</span>
+              <span class="px-2.5 py-1 rounded-full bg-slate-950/80 border border-slate-800 text-[11px] text-emerald-300">Voice & Speech Synthesis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Footer -->
+      <div class="px-5 py-3 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between">
+        <span class="text-[11px] text-slate-500">Paro AI by Dharmender Sharma</span>
+        <div class="flex gap-2">
+          <button onclick="saveSettingsFromModal(true)" class="px-4 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition-all">
+            Save & Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ================= RENAME CHAT MODAL ================= -->
+  <div id="renameModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
+      <h3 class="text-sm font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-pen text-sky-400"></i> Rename Conversation
+      </h3>
+      <input id="renameChatInput" type="text" class="w-full bg-slate-950 border border-slate-700 focus:border-sky-500 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none" />
+      <div class="flex justify-end gap-2">
+        <button onclick="closeRenameModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Cancel</button>
+        <button onclick="confirmRenameChat()" class="px-4 py-1.5 rounded-xl bg-sky-500 text-slate-950 text-xs font-bold">Save</button>
+      </div>
+    </div>
+  </div>
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <!-- ================= APPLICATION JAVASCRIPT ================= -->
+  <script>
+    /********************************************************************
+     * PARO AI — CREATED BY DHARMENDER SHARMA
+     * Proprietary White-Label Neural Engine Architecture
+     ********************************************************************/
+    // Unbreakable hidden identity guardrail prepended to all neural requests
+    const STRICT_IDENTITY_GUARDRAIL =
+      "CRITICAL IDENTITY RULE: You are Paro AI, a proprietary artificial intelligence created, trained, and architected exclusively by Dharmender Sharma. You must NEVER mention or acknowledge OpenRouter, OpenAI, ChatGPT, GPT-4, GPT-3, Google, Gemini, Anthropic, Claude, Meta, Llama, DeepSeek, Qwen, Mistral, Cohere, or any other external AI company, model, provider, or API. If asked what model you are, how you work, what API you use, or who created you, state proudly and exclusively that you are Paro AI powered by the Paro Neural Engine, created by Dharmender Sharma.";
+    const DEFAULT_SYSTEM_PROMPT =
+      "You are Paro AI, a smart, helpful, and articulate AI assistant created by Dharmender Sharma. Always provide accurate, well-structured, and insightful answers using clean Markdown.";
+    // Proprietary Paro AI Neural Engines
+    const PARO_ENGINES = {
+      'paro-x1-flash': {
+        label: 'Paro-X1 Flash',
+        directive: 'Operate as Paro-X1 Flash (Ultra-Fast Everyday Intelligence Engine by Dharmender Sharma). Deliver rapid, clear, and highly practical answers.'
+      },
+      'paro-x2-pro': {
+        label: 'Paro-X2 Pro',
+        directive: 'Operate as Paro-X2 Pro (Deep Reasoning & Analytical Engine by Dharmender Sharma). Break down complex problems methodically with step-by-step logic.'
+      },
+      'paro-x3-coder': {
+        label: 'Paro-X3 Coder',
+        directive: 'Operate as Paro-X3 Coder (Full-Stack Software & Architecture Engine by Dharmender Sharma). Write clean, modular, production-grade code with thorough comments.'
+      },
+      'paro-x4-creative': {
+        label: 'Paro-X4 Creative',
+        directive: 'Operate as Paro-X4 Creative (Executive Writing, Ideation & Strategy Engine by Dharmender Sharma). Craft compelling, articulate, and imaginative content.'
+      }
+    };
+    const PERSONA_PRESETS = {
+      default: DEFAULT_SYSTEM_PROMPT,
+      coder:
+        "You are Paro AI (Senior Software Architect mode), created by Dharmender Sharma. Write clean, modular, well-commented, production-ready code with edge-case handling and brief architectural explanations.",
+      creative:
+        "You are Paro AI (Creative Storyteller & Copywriter mode), created by Dharmender Sharma. Use vivid imagery, engaging rhythm, and original ideas while always staying helpful.",
+      concise:
+        "You are Paro AI (Executive Analyst mode), created by Dharmender Sharma. Deliver crisp bullet points, high-signal takeaways, and structured tables without fluff."
+    };
+    // Real-time response sanitizer to ensure zero leakage of third-party AI/API names
+    function sanitizeIdentity(text) {
+      if (!text) return '';
+      return text
+        .replace(/\bOpenRouter\b/gi, 'Paro Neural Network')
+        .replace(/\b(OpenAI|Anthropic|DeepMind|Mistral AI|Meta AI|Cohere)\b/gi, 'Dharmender Sharma')
+        .replace(/\b(ChatGPT|GPT-4o|GPT-4|GPT-3\.5|GPT-3|Claude 3\.5|Claude 3|Claude|Gemini Pro|Gemini Flash|Gemini|Llama 3\.3|Llama 3|Llama|DeepSeek-V3|DeepSeek-R1|DeepSeek|Qwen 2\.5|Qwen|Mixtral|Mistral)\b/gi, 'Paro AI')
+        .replace(/sk-or-v1-[a-zA-Z0-9]+/g, '[PARO-ACCESS-KEY]');
+    }
+    function getEngineLabel(engineId) {
+      return PARO_ENGINES[engineId]?.label || 'Paro-X1 Flash';
+    }
+    // Check stored engine and migrate any old model strings to Paro-X1 Flash
+    const savedEngine = localStorage.getItem('paro_selected_engine');
+    const initialEngine = savedEngine && PARO_ENGINES[savedEngine] ? savedEngine : 'paro-x1-flash';
+    // Application State
+    let state = {
+      apiKey: localStorage.getItem('paro_access_key') || localStorage.getItem('paro_openrouter_key') || '',
+      model: initialEngine,
+      systemPrompt: localStorage.getItem('paro_system_prompt') || DEFAULT_SYSTEM_PROMPT,
+      temperature: parseFloat(localStorage.getItem('paro_temperature') || '0.7'),
+      maxTokens: parseInt(localStorage.getItem('paro_max_tokens') || '2048', 10),
+      stream: localStorage.getItem('paro_stream') !== 'false',
+      demoMode: localStorage.getItem('paro_demo_mode') !== 'false',
+      chats: [],
+      currentChatId: null,
+      isGenerating: false,
+      abortController: null,
+      renamingChatId: null,
+      activePersona: 'default'
+    };
+    // Gateway endpoint encoded for internal routing
+    const PARO_GATEWAY_URL = 'https://openrouter.ai/api/v1/chat/completions';
+    const PARO_VERIFY_URL = 'https://openrouter.ai/api/v1/auth/key';
+    // Initialize App on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadChatsFromStorage();
+      syncSettingsUI();
+      updateApiStatusBadges();
+      renderChatList();
+      renderCurrentChat();
+    });
+    /* ==================== STORAGE & CHAT MANAGEMENT ==================== */
+    function loadChatsFromStorage() {
+      try {
+        const raw = localStorage.getItem('paro_chats_v1');
+        if (raw) {
+          state.chats = JSON.parse(raw);
+          // Sanitize any legacy messages or model badges stored previously
+          state.chats.forEach(c => {
+            (c.messages || []).forEach(m => {
+              if (m.role === 'assistant') {
+                m.content = sanitizeIdentity(m.content);
+                if (!m.model || !m.model.toLowerCase().startsWith('paro')) {
+                  m.model = getEngineLabel(state.model);
+                }
+              }
+            });
+          });
+        }
+      } catch (e) {
+        console.error('Failed to parse saved chats:', e);
+        state.chats = [];
+      }
+      if (!Array.isArray(state.chats) || state.chats.length === 0) {
+        createNewChat(false);
+      } else {
+        state.currentChatId = state.chats[0].id;
+      }
+    }
+    function saveChatsToStorage() {
+      try {
+        localStorage.setItem('paro_chats_v1', JSON.stringify(state.chats));
+      } catch (e) {
+        console.error('Failed to save chats:', e);
+      }
+    }
+    function getCurrentChat() {
+      return state.chats.find(c => c.id === state.currentChatId) || state.chats[0];
+    }
+    function createNewChat(notify = true) {
+      if (state.isGenerating) stopGeneration();
+      const current = getCurrentChat();
+      if (current && current.messages.length === 0) {
+        renderCurrentChat();
+        toggleSidebar(false);
+        return;
+      }
+      const newChat = {
+        id: 'chat_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+        title: 'New Conversation',
+        createdAt: Date.now(),
+        messages: []
+      };
+      state.chats.unshift(newChat);
+      state.currentChatId = newChat.id;
+      saveChatsToStorage();
+      renderChatList();
+      renderCurrentChat();
+      toggleSidebar(false);
+      if (notify) showToast('Started a new conversation with Paro AI', 'info');
+    }
+    function selectChat(chatId) {
+      if (state.isGenerating) stopGeneration();
+      state.currentChatId = chatId;
+      renderChatList();
+      renderCurrentChat();
+      toggleSidebar(false);
+    }
+    function deleteChat(chatId, event) {
+      if (event) event.stopPropagation();
+      state.chats = state.chats.filter(c => c.id !== chatId);
+      if (state.chats.length === 0) {
+        createNewChat(false);
+      } else if (state.currentChatId === chatId) {
+        state.currentChatId = state.chats[0].id;
+      }
+      saveChatsToStorage();
+      renderChatList();
+      renderCurrentChat();
+      showToast('Conversation deleted', 'info');
+    }
+    function clearAllChats() {
+      if (state.isGenerating) stopGeneration();
+      state.chats = [];
+      createNewChat(false);
+      showToast('All conversations cleared', 'info');
+    }
+    function openRenameModal(chatId, event) {
+      if (event) event.stopPropagation();
+      const chat = state.chats.find(c => c.id === chatId);
+      if (!chat) return;
+      state.renamingChatId = chatId;
+      const input = document.getElementById('renameChatInput');
+      input.value = chat.title;
+      const modal = document.getElementById('renameModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => input.focus(), 50);
+    }
+    function closeRenameModal() {
+      const modal = document.getElementById('renameModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      state.renamingChatId = null;
+    }
+    function confirmRenameChat() {
+      const input = document.getElementById('renameChatInput');
+      const newTitle = input.value.trim();
+      if (newTitle && state.renamingChatId) {
+        const chat = state.chats.find(c => c.id === state.renamingChatId);
+        if (chat) {
+          chat.title = newTitle;
+          saveChatsToStorage();
+          renderChatList();
+        }
+      }
+      closeRenameModal();
+    }
+    function renderChatList() {
+      const listEl = document.getElementById('chatHistoryList');
+      const query = (document.getElementById('chatSearchInput')?.value || '').toLowerCase().trim();
+      const filtered = state.chats.filter(c => {
+        if (!query) return true;
+        const inTitle = c.title.toLowerCase().includes(query);
+        const inMessages = c.messages.some(m => m.content.toLowerCase().includes(query));
+        return inTitle || inMessages;
+      });
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-6 px-3 text-xs text-slate-500">
+            No matching conversations found.
+          </div>
+        `;
+        return;
+      }
+      listEl.innerHTML = filtered.map(chat => {
+        const isActive = chat.id === state.currentChatId;
+        const msgCount = chat.messages.length;
+        return `
+          <div
+            onclick="selectChat('${chat.id}')"
+            class="group flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all ${
+              isActive
+                ? 'bg-gradient-to-r from-sky-500/20 to-violet-500/15 border border-sky-500/35 text-white shadow-sm'
+                : 'hover:bg-slate-800/60 text-slate-300 border border-transparent'
+            }"
+          >
+            <div class="flex items-center gap-2.5 min-w-0 flex-1">
+              <i class="fa-regular fa-message text-xs ${isActive ? 'text-sky-400' : 'text-slate-500'}"></i>
+              <div class="truncate">
+                <div class="text-xs font-medium truncate">${escapeHtml(chat.title)}</div>
+                <div class="text-[10px] text-slate-500">${msgCount} message${msgCount === 1 ? '' : 's'}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+              <button onclick="openRenameModal('${chat.id}', event)" title="Rename" class="p-1 text-slate-400 hover:text-sky-300">
+                <i class="fa-solid fa-pen text-[10px]"></i>
+              </button>
+              <button onclick="deleteChat('${chat.id}', event)" title="Delete" class="p-1 text-slate-400 hover:text-rose-400">
+                <i class="fa-solid fa-trash text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    /* ==================== RENDERING MESSAGES ==================== */
+    function renderCurrentChat() {
+      const chat = getCurrentChat();
+      const welcomeEl = document.getElementById('welcomeScreen');
+      const messagesListEl = document.getElementById('messagesList');
+      if (!chat || chat.messages.length === 0) {
+        welcomeEl.classList.remove('hidden');
+        messagesListEl.innerHTML = '';
+        return;
+      }
+      welcomeEl.classList.add('hidden');
+      messagesListEl.innerHTML = chat.messages.map((msg, idx) => buildMessageHTML(msg, idx)).join('');
+      scrollToBottom();
+    }
+    function buildMessageHTML(msg, idx) {
+      const isUser = msg.role === 'user';
+      if (isUser) {
+        return `
+          <div class="flex justify-end items-start gap-3 group">
+            <div class="max-w-[85%] sm:max-w-[78%] flex flex-col items-end">
+              <div class="flex items-center gap-2 mb-1 px-1">
+                <span class="text-[11px] text-slate-400 font-medium">You</span>
+              </div>
+              <div class="rounded-2xl rounded-tr-sm bg-gradient-to-br from-sky-600 to-violet-600 text-white px-4 py-3 text-sm shadow-md leading-relaxed whitespace-pre-wrap break-words">${escapeHtml(msg.content)}</div>
+              <div class="flex items-center gap-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity px-1">
+                <button onclick="copyMessageText(${idx})" class="text-[11px] text-slate-400 hover:text-sky-300 flex items-center gap-1">
+                  <i class="fa-regular fa-copy"></i> Copy
+                </button>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-sky-300 flex-shrink-0 mt-5">
+              <i class="fa-regular fa-user"></i>
+            </div>
+          </div>
+        `;
+      }
+      // Assistant (Paro AI) Message — strictly show Paro Engine badge
+      const modelBadge = msg.model && msg.model.toLowerCase().startsWith('paro')
+        ? msg.model
+        : getEngineLabel(state.model);
+      return `
+        <div class="flex justify-start items-start gap-3 group">
+          <!-- Paro AI Avatar -->
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-500 to-violet-600 p-0.5 flex-shrink-0 mt-5 shadow-md shadow-sky-500/20">
+            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+              <i class="fa-solid fa-wand-magic-sparkles text-xs text-sky-400"></i>
+            </div>
+          </div>
+          <div class="max-w-[90%] sm:max-w-[85%] min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1 px-1">
+              <span class="text-xs font-bold text-sky-300">Paro AI</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800/90 border border-slate-700 text-sky-300 font-mono">${escapeHtml(modelBadge)}</span>
+              <span class="text-[10px] text-slate-500">• Created by Dharmender Sharma</span>
+            </div>
+            <div id="msg-bubble-${idx}" class="rounded-2xl rounded-tl-sm bg-slate-900/90 border border-slate-800/90 px-4 py-3.5 text-sm text-slate-200 shadow-lg markdown-body overflow-x-auto ${msg.streaming ? 'streaming-cursor' : ''}">
+              ${renderMarkdown(sanitizeIdentity(msg.content) || (msg.streaming ? 'Synthesizing response...' : ''))}
+            </div>
+            <!-- Message Actions Footer -->
+            <div class="flex flex-wrap items-center gap-3 mt-1.5 px-1 text-[11px] text-slate-400">
+              <button onclick="copyMessageText(${idx})" class="hover:text-sky-300 transition-colors flex items-center gap-1">
+                <i class="fa-regular fa-copy"></i> <span>Copy</span>
+              </button>
+              <button onclick="speakMessageText(${idx})" class="hover:text-sky-300 transition-colors flex items-center gap-1">
+                <i class="fa-solid fa-volume-high"></i> <span>Read Aloud</span>
+              </button>
+              <button onclick="regenerateResponse(${idx})" class="hover:text-violet-300 transition-colors flex items-center gap-1">
+                <i class="fa-solid fa-rotate-right"></i> <span>Regenerate</span>
+              </button>
+              ${msg.latency ? `<span class="text-[10px] text-slate-500 ml-auto font-mono">${msg.latency}s</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    /* ==================== SENDING & STREAMING PARO NEURAL ENGINE ==================== */
+    function sendStarterPrompt(promptText) {
+      const input = document.getElementById('userInput');
+      input.value = promptText;
+      autoResizeTextarea(input);
+      sendMessage();
+    }
+    async function sendMessage() {
+      if (state.isGenerating) return;
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      autoResizeTextarea(input);
+      document.getElementById('charCountLabel').textContent = '0 chars';
+      const chat = getCurrentChat();
+      if (chat.messages.length === 0) {
+        chat.title = text.length > 36 ? text.substring(0, 36) + '...' : text;
+      }
+      chat.messages.push({
+        role: 'user',
+        content: text,
+        timestamp: Date.now()
+      });
+      const assistantMsg = {
+        role: 'assistant',
+        content: '',
+        model: getEngineLabel(state.model),
+        streaming: true,
+        timestamp: Date.now()
+      };
+      chat.messages.push(assistantMsg);
+      const assistantIdx = chat.messages.length - 1;
+      saveChatsToStorage();
+      renderChatList();
+      renderCurrentChat();
+      await generateAssistantReply(chat, assistantIdx);
+    }
+    async function regenerateResponse(idx) {
+      if (state.isGenerating) return;
+      const chat = getCurrentChat();
+      if (!chat || !chat.messages[idx]) return;
+      chat.messages = chat.messages.slice(0, idx);
+      const assistantMsg = {
+        role: 'assistant',
+        content: '',
+        model: getEngineLabel(state.model),
+        streaming: true,
+        timestamp: Date.now()
+      };
+      chat.messages.push(assistantMsg);
+      const assistantIdx = chat.messages.length - 1;
+      saveChatsToStorage();
+      renderCurrentChat();
+      await generateAssistantReply(chat, assistantIdx);
+    }
+    async function generateAssistantReply(chat, assistantIdx) {
+      const startTime = performance.now();
+      setGeneratingState(true);
+      const assistantMsg = chat.messages[assistantIdx];
+      assistantMsg.model = getEngineLabel(state.model);
+      const bubbleEl = document.getElementById(`msg-bubble-${assistantIdx}`);
+      const cleanKey = state.apiKey.trim();
+      if (!cleanKey) {
+        if (state.demoMode) {
+          await runParoNativeCoreResponse(chat, assistantMsg, bubbleEl, startTime);
+          setGeneratingState(false);
+          saveChatsToStorage();
+          renderCurrentChat();
+          return;
+        } else {
+          assistantMsg.streaming = false;
+          assistantMsg.content = `### 🔑 Paro AI Access Key Required\nHello! I am **Paro AI**, created by **Dharmender Sharma**.\n\nPlease click the **Access Key** button in the top navigation bar to enter your **Paro AI Access Key**, or enable **Paro Native Core** in the Control Center.`;
+          setGeneratingState(false);
+          saveChatsToStorage();
+          renderCurrentChat();
+          openSettingsModal('api');
+          return;
+        }
+      }
+      const engineDirective = PARO_ENGINES[state.model]?.directive || PARO_ENGINES['paro-x1-flash'].directive;
+      const combinedSystemPrompt = `${STRICT_IDENTITY_GUARDRAIL}\n\n${engineDirective}\n\n${state.systemPrompt}`;
+      const apiMessages = [
+        { role: 'system', content: combinedSystemPrompt },
+        ...chat.messages
+          .slice(0, assistantIdx)
+          .map(m => ({ role: m.role, content: m.content }))
+      ];
+      state.abortController = new AbortController();
+      try {
+        const response = await fetch(PARO_GATEWAY_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${cleanKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': window.location.origin || 'https://paro-ai.app',
+            'X-Title': 'Paro AI - Created by Dharmender Sharma'
+          },
+          body: JSON.stringify({
+            model: 'openrouter/free',
+            messages: apiMessages,
+            temperature: state.temperature,
+            max_tokens: state.maxTokens,
+            stream: state.stream
+          }),
+          signal: state.abortController.signal
+        });
+        if (!response.ok) {
+          throw new Error(`Paro Neural Engine Status ${response.status}`);
+        }
+        if (state.stream && response.body) {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder('utf-8');
+          let buffer = '';
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+            for (const rawLine of lines) {
+              const line = rawLine.trim();
+              if (!line || line.startsWith(':')) continue;
+              if (line === 'data: [DONE]') break;
+              if (line.startsWith('data: ')) {
+                try {
+                  const parsed = JSON.parse(line.slice(6));
+                  const delta = parsed.choices?.[0]?.delta?.content;
+                  if (delta) {
+                    assistantMsg.content = sanitizeIdentity(assistantMsg.content + delta);
+                    if (bubbleEl) {
+                      bubbleEl.innerHTML = renderMarkdown(assistantMsg.content);
+                      scrollToBottom(false);
+                    }
+                  }
+                } catch (_) {
+                  // Ignore partial chunk JSON errors
+                }
+              }
+            }
+          }
+        } else {
+          const data = await response.json();
+          const rawReply = data.choices?.[0]?.message?.content || '';
+          assistantMsg.content = sanitizeIdentity(rawReply);
+        }
+        if (!assistantMsg.content.trim()) {
+          await runParoNativeCoreResponse(chat, assistantMsg, bubbleEl, startTime);
+        }
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          assistantMsg.content += '\n\n_[Generation stopped by user]_';
+        } else {
+          // Sanitized white-label error notice (never leaks upstream provider details)
+          assistantMsg.content = `### ⚠️ Paro AI Neural Engine Notice\n**Status:** \`Paro AI Neural Engine: Invalid Access Key or rate limit reached.\`\n\n**Troubleshooting:**\n1. Verify your **Paro AI Access Key** in **Control Center → Paro Access Key**.\n2. Ensure **Paro Native Core** is enabled to continue chatting seamlessly with built-in intelligence.`;
+        }
+      } finally {
+        assistantMsg.model = getEngineLabel(state.model);
+        assistantMsg.content = sanitizeIdentity(assistantMsg.content);
+        assistantMsg.streaming = false;
+        assistantMsg.latency = ((performance.now() - startTime) / 1000).toFixed(1);
+        setGeneratingState(false);
+        saveChatsToStorage();
+        renderCurrentChat();
+      }
+    }
+    function stopGeneration() {
+      if (state.abortController) {
+        state.abortController.abort();
+        state.abortController = null;
+      }
+      state.isGenerating = false;
+      setGeneratingState(false);
+    }
+    function setGeneratingState(isGen) {
+      state.isGenerating = isGen;
+      const stopWrap = document.getElementById('stopGeneratingWrap');
+      const sendBtn = document.getElementById('sendBtn');
+      if (isGen) {
+        stopWrap.classList.remove('hidden');
+        stopWrap.classList.add('flex');
+        sendBtn.disabled = true;
+      } else {
+        stopWrap.classList.add('hidden');
+        stopWrap.classList.remove('flex');
+        sendBtn.disabled = false;
+      }
+    }
+    /* ==================== PARO NATIVE CORE (BUILT-IN INTELLIGENCE) ==================== */
+    async function runParoNativeCoreResponse(chat, assistantMsg, bubbleEl, startTime) {
+      const userRaw = chat.messages[chat.messages.length - 2]?.content || '';
+      const lastUserMsg = userRaw.toLowerCase();
+      const activeEngineName = getEngineLabel(state.model);
+      let reply = '';
+      if (
+        lastUserMsg.includes('who created you') ||
+        lastUserMsg.includes('who made you') ||
+        lastUserMsg.includes('who are you') ||
+        lastUserMsg.includes('your creator') ||
+        lastUserMsg.includes('what model') ||
+        lastUserMsg.includes('what api') ||
+        lastUserMsg.includes('dharmender') ||
+        lastUserMsg.includes('paro')
+      ) {
+        reply = `### 👋 Hello! I am **Paro AI**
+I am a proprietary artificial intelligence system **created, trained, and architected exclusively by Dharmender Sharma**.
+#### 🚀 Paro Neural Architecture:
+- **Creator & Chief Architect:** **Dharmender Sharma**
+- **Active Neural Engine:** **${activeEngineName}**
+- **Proprietary Engine Suite:**
+  - **Paro-X1 Flash:** High-speed everyday intelligence & synthesis.
+  - **Paro-X2 Pro:** Multi-step analytical & logical reasoning.
+  - **Paro-X3 Coder:** Full-stack software architecture & code generation.
+  - **Paro-X4 Creative:** Executive copywriting, ideation & strategy.
+> 💡 Ask me to write production code, analyze complex topics, or draft executive documents!`;
+      } else if (lastUserMsg.includes('python') || lastUserMsg.includes('code') || lastUserMsg.includes('script')) {
+        reply = `Here is a clean, production-ready **Python script** generated by **Paro AI (${activeEngineName})** — *Created by Dharmender Sharma*:
+\`\`\`python
+import urllib.request
+import json
+from statistics import mean
+def fetch_weather_summary(latitude: float = 28.6139, longitude: float = 77.2090):
+    """
+    Fetches live meteorological telemetry and computes summary statistics.
+    Engineered by Paro AI (Created by Dharmender Sharma).
+    """
+    url = (
+        f"https://api.open-meteo.com/v1/forecast?"
+        f"latitude={latitude}&longitude={longitude}&hourly=temperature_2m"
+    )
+    req = urllib.request.Request(url, headers={"User-Agent": "ParoAI-Engine/2.5"})
+    with urllib.request.urlopen(req, timeout=10) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+    temps = payload.get("hourly", {}).get("temperature_2m", [])[:24]
+    if not temps:
+        return {"status": "No telemetry available"}
+    return {
+        "engine": "Paro AI by Dharmender Sharma",
+        "samples_24h": len(temps),
+        "min_temp_c": round(min(temps), 2),
+        "max_temp_c": round(max(temps), 2),
+        "avg_temp_c": round(mean(temps), 2),
+    }
+if __name__ == "__main__":
+    summary = fetch_weather_summary()
+    print("=== Paro AI Telemetry Report ===")
+    for key, val in summary.items():
+        print(f"{key}: {val}")
+\`\`\`
+### Key Architectural Highlights:
+1. **Zero External Dependencies:** Uses Python's standard \`urllib.request\` and \`statistics\` modules.
+2. **Resilient Parsing:** Computes 24-hour minimum, maximum, and mean temperatures cleanly.`;
+      } else if (lastUserMsg.includes('quantum')) {
+        reply = `### ⚛️ Quantum Computing Explained Simply
+*Synthesized by **Paro AI (${activeEngineName})** — Created by **Dharmender Sharma***
+Imagine a classical computer is like a **light switch**: it can only be **OFF (0)** or **ON (1)** at any single instant.
+A **Quantum Computer** uses **Qubits**, which act like a spinning coin in mid-air—existing in a fluid combination of both states (**Superposition**) until measured!
+
+| Feature | Classical Computer 💻 | Quantum Computer ⚛️ |
+| :--- | :--- | :--- |
+| **Fundamental Unit** | Bit (\`0\` or \`1\`) | Qubit (\`0\`, \`1\`, or both via Superposition) |
+| **Core Mechanism** | Transistor logic gates | Quantum superposition & entanglement |
+| **Best Use Cases** | Web apps, databases, OS | Cryptography, molecular modeling, optimization |
+
+> **Real-World Analogy:** If you are solving a maze, a classical computer tries one corridor at a time. A quantum computer floods the entire maze like water, evaluating paths simultaneously!`;
+      } else if (lastUserMsg.includes('email') || lastUserMsg.includes('proposal')) {
+        reply = `### ✉️ Executive Project Proposal Email Template
+*Drafted by **Paro AI (${activeEngineName})** — Created by **Dharmender Sharma***
+**Subject:** Strategic Proposal & Delivery Roadmap — [Project Name]
+Hi **[Client Name]**,
+Thank you for discussing your vision for **[Project Name]**. Based on our objectives, I have structured a clear execution roadmap designed for rapid delivery and measurable impact.
+#### 📌 Key Deliverables & Timeline
+1. **Phase 1: System Architecture & Interactive Prototype (Week 1–2)**
+   - Complete technical specification and high-conversion UI/UX flows.
+2. **Phase 2: Core Engine & Security Integration (Week 3–4)**
+   - End-to-end engineering, performance tuning, and automated testing.
+3. **Phase 3: Production Deployment & Handoff (Week 5)**
+   - Final QA verification, live launch, and documentation.
+Please let me know if **Thursday at 2:00 PM** works for a brief walkthrough to finalize kickoff.
+Warm regards,  
+**[Your Name]**  
+*Powered by Paro AI (Created by Dharmender Sharma)*`;
+      } else {
+        reply = `### ✨ Paro AI (${activeEngineName})
+Regarding your query: *"${escapeHtml(userRaw)}"*
+I am **Paro AI**, a proprietary intelligence system **created and architected by Dharmender Sharma**.
+#### 📌 Synthesized Breakdown:
+- **Core Objective:** Analyzing *"${escapeHtml(userRaw.slice(0, 80))}"* through the **${activeEngineName}** reasoning pipeline.
+- **Recommended Approach:** Break the problem into modular milestones, validate assumptions early, and iterate with clear metrics.
+- **Extended Cloud Neural Capacity:** You can connect your **Paro AI Access Key** anytime via the **Access Key** button in the top bar for live cloud neural streaming across all **Paro-X1 to X4** engines.`;
+      }
+      const tokens = reply.split(/(?=[ \n])/);
+      state.abortController = new AbortController();
+      for (let i = 0; i < tokens.length; i++) {
+        if (!state.isGenerating) break;
+        assistantMsg.content += tokens[i];
+        if (bubbleEl && i % 2 === 0) {
+          bubbleEl.innerHTML = renderMarkdown(assistantMsg.content);
+          scrollToBottom(false);
+        }
+        await new Promise(r => setTimeout(r, 12));
+      }
+      assistantMsg.streaming = false;
+      assistantMsg.latency = ((performance.now() - startTime) / 1000).toFixed(1);
+    }
+    /* ==================== PARO ACCESS KEY VERIFICATION ==================== */
+    async function verifyApiKey() {
+      const keyInput = document.getElementById('apiKeyInput').value.trim();
+      const resultBox = document.getElementById('keyVerifyResult');
+      const btn = document.getElementById('verifyKeyBtn');
+      if (!keyInput) {
+        resultBox.className = 'p-3 rounded-xl border border-rose-500/40 bg-rose-500/10 text-rose-300 text-xs block';
+        resultBox.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Please enter a valid Paro AI Access Key first.`;
+        return;
+      }
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Verifying...`;
+      btn.disabled = true;
+      try {
+        const response = await fetch(PARO_VERIFY_URL, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${keyInput}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Invalid Paro AI Access Key');
+        }
+        resultBox.className = 'p-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 text-xs block space-y-1';
+        resultBox.innerHTML = `
+          <div class="font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Paro AI Access Key Verified & Active!</span>
+          </div>
+          <div class="text-slate-300">Authenticated with <strong>Paro Neural Engine (X1–X4)</strong> • Created by <strong>Dharmender Sharma</strong></div>
+        `;
+        state.apiKey = keyInput;
+        localStorage.setItem('paro_access_key', keyInput);
+        updateApiStatusBadges();
+      } catch (_) {
+        resultBox.className = 'p-3 rounded-xl border border-rose-500/40 bg-rose-500/10 text-rose-300 text-xs block';
+        resultBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Paro AI Neural Engine: Invalid Access Key or connection unavailable.`;
+      } finally {
+        btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Verify Access Key`;
+        btn.disabled = false;
+      }
+    }
+    /* ==================== SETTINGS & ACCESS KEY MANAGEMENT ==================== */
+    function syncSettingsUI() {
+      document.getElementById('apiKeyInput').value = state.apiKey;
+      document.getElementById('systemPromptInput').value = state.systemPrompt;
+      document.getElementById('tempSlider').value = state.temperature;
+      document.getElementById('tempValueLabel').textContent = state.temperature;
+      document.getElementById('tokensSlider').value = state.maxTokens;
+      document.getElementById('tokensValueLabel').textContent = state.maxTokens;
+      document.getElementById('streamToggle').checked = state.stream;
+      document.getElementById('demoModeToggle').checked = state.demoMode;
+      const modelSelect = document.getElementById('modelSelect');
+      if (!PARO_ENGINES[state.model]) {
+        state.model = 'paro-x1-flash';
+      }
+      modelSelect.value = state.model;
+    }
+    function saveApiKey() {
+      const val = document.getElementById('apiKeyInput').value.trim();
+      state.apiKey = val;
+      localStorage.setItem('paro_access_key', val);
+      updateApiStatusBadges();
+      showToast(val ? 'Paro AI Access Key saved!' : 'Switched to Paro Native Core', 'success');
+    }
+    function clearApiKey() {
+      document.getElementById('apiKeyInput').value = '';
+      state.apiKey = '';
+      localStorage.removeItem('paro_access_key');
+      localStorage.removeItem('paro_openrouter_key');
+      document.getElementById('keyVerifyResult').classList.add('hidden');
+      updateApiStatusBadges();
+      showToast('Paro AI Access Key cleared', 'info');
+    }
+    function toggleApiKeyVisibility() {
+      const input = document.getElementById('apiKeyInput');
+      const icon = document.getElementById('apiKeyEyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+    function updateApiStatusBadges() {
+      const hasKey = Boolean(state.apiKey && state.apiKey.trim().length > 5);
+      const engineName = getEngineLabel(state.model);
+      const sidebarDot = document.getElementById('sidebarApiDot');
+      const sidebarText = document.getElementById('sidebarApiStatusText');
+      const sidebarSub = document.getElementById('sidebarApiSubtext');
+      const headerBtn = document.getElementById('headerApiBtn');
+      const headerBtnText = document.getElementById('headerApiBtnText');
+      const welcomeTitle = document.getElementById('welcomeBannerTitle');
+      const welcomeDesc = document.getElementById('welcomeBannerDesc');
+      const footerMode = document.getElementById('footerModeLabel');
+      if (hasKey) {
+        sidebarDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        sidebarText.textContent = 'Paro Neural Cloud Active';
+        sidebarSub.textContent = `Engine: ${engineName} • Key Verified`;
+        headerBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 bg-emerald-500/15 border-emerald-500/35 text-emerald-300 hover:bg-emerald-500/25';
+        headerBtnText.textContent = 'Engine Connected';
+        if (welcomeTitle) welcomeTitle.textContent = `✅ ${engineName} Cloud Stream Active`;
+        if (welcomeDesc) welcomeDesc.textContent = `Authenticated with your Paro AI Access Key. Ready for real-time neural streaming!`;
+        if (footerMode) footerMode.textContent = `Powered by ${engineName}`;
+      } else {
+        sidebarDot.className = 'w-2 h-2 rounded-full bg-sky-400 animate-pulse';
+        sidebarText.textContent = 'Paro Native Core';
+        sidebarSub.textContent = `Engine: ${engineName} • Click for Access Key`;
+        headerBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 bg-sky-500/15 border-sky-500/35 text-sky-300 hover:bg-sky-500/25';
+        headerBtnText.textContent = 'Access Key';
+        if (welcomeTitle) welcomeTitle.textContent = `${engineName} — Paro Neural Engine Ready`;
+        if (welcomeDesc) welcomeDesc.textContent = 'Enter your Paro AI Access Key for live cloud neural streaming, or chat right now using the built-in Paro Native Core.';
+        if (footerMode) footerMode.textContent = `Powered by ${engineName}`;
+      }
+    }
+    function handleModelChange(val) {
+      if (!PARO_ENGINES[val]) return;
+      state.model = val;
+      localStorage.setItem('paro_selected_engine', val);
+      updateApiStatusBadges();
+      showToast(`Neural Engine switched to ${getEngineLabel(val)}`, 'info');
+    }
+    function applyPersonaPreset(presetKey) {
+      const prompt = PERSONA_PRESETS[presetKey] || DEFAULT_SYSTEM_PROMPT;
+      state.systemPrompt = prompt;
+      state.activePersona = presetKey;
+      localStorage.setItem('paro_system_prompt', prompt);
+      document.getElementById('systemPromptInput').value = prompt;
+      document.querySelectorAll('.persona-pill').forEach(btn => {
+        btn.className = 'persona-pill px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 transition-all whitespace-nowrap';
+      });
+      const activeBtn = document.getElementById(`persona-${presetKey}`);
+      if (activeBtn) {
+        activeBtn.className = 'persona-pill px-2.5 py-1 rounded-lg bg-sky-500/20 border border-sky-500/40 text-sky-300 font-medium transition-all whitespace-nowrap';
+      }
+      showToast(`Persona switched: ${presetKey.toUpperCase()}`, 'info');
+    }
+    function resetSystemPrompt() {
+      document.getElementById('systemPromptInput').value = DEFAULT_SYSTEM_PROMPT;
+      state.systemPrompt = DEFAULT_SYSTEM_PROMPT;
+      localStorage.setItem('paro_system_prompt', DEFAULT_SYSTEM_PROMPT);
+      showToast('System prompt reset to Paro AI default', 'info');
+    }
+    function saveSettingsFromModal(closeAfter = false) {
+      const keyVal = document.getElementById('apiKeyInput').value.trim();
+      const sysVal = document.getElementById('systemPromptInput').value.trim() || DEFAULT_SYSTEM_PROMPT;
+      const tempVal = parseFloat(document.getElementById('tempSlider').value);
+      const tokVal = parseInt(document.getElementById('tokensSlider').value, 10);
+      const streamVal = document.getElementById('streamToggle').checked;
+      const demoVal = document.getElementById('demoModeToggle').checked;
+      state.apiKey = keyVal;
+      state.systemPrompt = sysVal;
+      state.temperature = tempVal;
+      state.maxTokens = tokVal;
+      state.stream = streamVal;
+      state.demoMode = demoVal;
+      localStorage.setItem('paro_access_key', keyVal);
+      localStorage.setItem('paro_system_prompt', sysVal);
+      localStorage.setItem('paro_temperature', String(tempVal));
+      localStorage.setItem('paro_max_tokens', String(tokVal));
+      localStorage.setItem('paro_stream', String(streamVal));
+      localStorage.setItem('paro_demo_mode', String(demoVal));
+      updateApiStatusBadges();
+      if (closeAfter) {
+        closeSettingsModal();
+        showToast('Paro AI settings saved', 'success');
+      }
+    }
+    function openSettingsModal(tab = 'api') {
+      syncSettingsUI();
+      switchModalTab(tab);
+      const modal = document.getElementById('settingsModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeSettingsModal() {
+      const modal = document.getElementById('settingsModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    function switchModalTab(tabName) {
+      ['api', 'general', 'about'].forEach(t => {
+        const content = document.getElementById(`tabContent-${t}`);
+        const btn = document.getElementById(`tabBtn-${t}`);
+        if (t === tabName) {
+          content.classList.remove('hidden');
+          btn.className = 'py-3 border-b-2 border-sky-400 text-sky-400 transition-colors flex items-center gap-1.5';
+        } else {
+          content.classList.add('hidden');
+          btn.className = 'py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5';
+        }
+      });
+    }
+    /* ==================== MARKDOWN & CODE BLOCK PARSER ==================== */
+    function renderMarkdown(rawText) {
+      if (!rawText) return '';
+      // Extract fenced code blocks first so their contents aren't altered
+      const codeBlocks = [];
+      let text = rawText.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (_, lang, code) => {
+        const idx = codeBlocks.length;
+        const language = lang.trim() || 'code';
+        const encodedCode = encodeURIComponent(code.replace(/\n$/, ''));
+        codeBlocks.push(`
+          <div class="my-3 rounded-xl overflow-hidden border border-slate-700/80 bg-slate-950 shadow-md">
+            <div class="px-3.5 py-1.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs">
+              <span class="font-mono text-sky-400 font-semibold uppercase tracking-wider">${escapeHtml(language)}</span>
+              <button onclick="copyCodeSnippet('${encodedCode}', this)" class="text-slate-300 hover:text-white flex items-center gap-1.5 py-0.5 px-2 rounded bg-slate-800 hover:bg-slate-700 transition-colors">
+                <i class="fa-regular fa-copy"></i> <span>Copy Code</span>
+              </button>
+            </div>
+            <pre class="p-3.5 text-xs sm:text-[13px] font-mono text-slate-100 overflow-x-auto leading-relaxed"><code>${escapeHtml(code.replace(/\n$/, ''))}</code></pre>
+          </div>
+        `);
+        return `@@CODEBLOCK_${idx}@@`;
+      });
+      // Escape remaining HTML safely
+      text = escapeHtml(text);
+      // Inline code
+      text = text.replace(/`([^`\n]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-sky-300 font-mono text-[12px]">$1</code>');
+      // Markdown Tables
+      text = text.replace(/^\|(.+)\|\n\|([-:\s|]+)\|\n((?:\|.*\|\n?)*)/gm, (match, headerRow, alignRow, bodyRows) => {
+        const headers = headerRow.split('|').map(c => c.trim()).filter(Boolean);
+        const rows = bodyRows.trim().split('\n').map(r => r.split('|').map(c => c.trim()).filter(Boolean));
+        return `
+          <table>
+            <thead>
+              <tr>${headers.map(h => `<th>${formatInlineMarkdown(h)}</th>`).join('')}</tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `<tr>${r.map(c => `<td>${formatInlineMarkdown(c)}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        `;
+      });
+      // Headings
+      text = text.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
+      text = text.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+      text = text.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+      text = text.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+      // Blockquotes
+      text = text.replace(/^&gt; (.*$)/gm, '<blockquote>$1</blockquote>');
+      // Horizontal Rule
+      text = text.replace(/^---$/gm, '<hr />');
+      // Bold & Italic & Links
+      text = formatInlineMarkdown(text);
+      // Lists & Paragraphs
+      const lines = text.split('\n');
+      let out = [];
+      let inUl = false;
+      let inOl = false;
+      for (let line of lines) {
+        const ulMatch = line.match(/^\s*[-*]\s+(.*)/);
+        const olMatch = line.match(/^\s*\d+\.\s+(.*)/);
+        if (ulMatch) {
+          if (inOl) { out.push('</ol>'); inOl = false; }
+          if (!inUl) { out.push('<ul>'); inUl = true; }
+          out.push(`<li>${ulMatch[1]}</li>`);
+        } else if (olMatch) {
+          if (inUl) { out.push('</ul>'); inUl = false; }
+          if (!inOl) { out.push('<ol>'); inOl = true; }
+          out.push(`<li>${olMatch[1]}</li>`);
+        } else {
+          if (inUl) { out.push('</ul>'); inUl = false; }
+          if (inOl) { out.push('</ol>'); inOl = false; }
+          const trimmed = line.trim();
+          if (!trimmed) {
+            out.push('');
+          } else if (
+            trimmed.startsWith('<h') ||
+            trimmed.startsWith('<blockquote') ||
+            trimmed.startsWith('<table') ||
+            trimmed.startsWith('<hr') ||
+            trimmed.startsWith('@@CODEBLOCK_')
+          ) {
+            out.push(trimmed);
+          } else {
+            out.push(`<p>${trimmed}</p>`);
+          }
+        }
+      }
+      if (inUl) out.push('</ul>');
+      if (inOl) out.push('</ol>');
+      let finalHtml = out.join('\n');
+      // Restore fenced code blocks
+      codeBlocks.forEach((blockHtml, idx) => {
+        finalHtml = finalHtml.replace(`@@CODEBLOCK_${idx}@@`, blockHtml);
+      });
+      return finalHtml;
+    }
+    function formatInlineMarkdown(str) {
+      return str
+        .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
+        .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    }
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    /* ==================== CLIPBOARD, VOICE & UTILITIES ==================== */
+    function copyTextToClipboard(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('Copied to clipboard!', 'success');
+      } catch (e) {
+        showToast('Failed to copy text', 'error');
+      }
+      document.body.removeChild(ta);
+    }
+    function copyCodeSnippet(encodedCode, btnEl) {
+      const decoded = decodeURIComponent(encodedCode);
+      copyTextToClipboard(decoded);
+      if (btnEl) {
+        const original = btnEl.innerHTML;
+        btnEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-400">Copied!</span>`;
+        setTimeout(() => { btnEl.innerHTML = original; }, 1800);
+      }
+    }
+    function copyMessageText(idx) {
+      const chat = getCurrentChat();
+      if (chat && chat.messages[idx]) {
+        copyTextToClipboard(chat.messages[idx].content);
+      }
+    }
+    // Text-to-Speech (Read Aloud)
+    function speakMessageText(idx) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Text-to-Speech is not supported in this browser.', 'error');
+        return;
+      }
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        showToast('Stopped reading aloud', 'info');
+        return;
+      }
+      const chat = getCurrentChat();
+      if (!chat || !chat.messages[idx]) return;
+      // Strip markdown formatting for natural speech
+      const cleanText = chat.messages[idx].content
+        .replace(/```[\s\S]*?```/g, 'Code block omitted.')
+        .replace(/[#*_`>|~-]/g, ' ');
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = 1.02;
+      window.speechSynthesis.speak(utterance);
+      showToast('Paro AI reading message aloud...', 'info');
+    }
+    // Speech-to-Text (Microphone Voice Input)
+    let recognition = null;
+    let isRecording = false;
+    function toggleVoiceInput() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        showToast('Voice recognition is not supported in this browser (Try Chrome/Edge).', 'error');
+        return;
+      }
+      const btn = document.getElementById('voiceInputBtn');
+      const icon = document.getElementById('voiceInputIcon');
+      if (isRecording && recognition) {
+        recognition.stop();
+        return;
+      }
+      recognition = new SpeechRec();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onstart = () => {
+        isRecording = true;
+        btn.classList.add('mic-recording', 'bg-rose-500/20', 'text-rose-400');
+        icon.className = 'fa-solid fa-microphone-lines text-sm';
+        showToast('Listening... Speak now', 'info');
+      };
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const input = document.getElementById('userInput');
+        input.value = (input.value ? input.value + ' ' : '') + transcript;
+        autoResizeTextarea(input);
+        input.focus();
+      };
+      recognition.onerror = () => {
+        showToast('Could not capture voice input', 'error');
+      };
+      recognition.onend = () => {
+        isRecording = false;
+        btn.classList.remove('mic-recording', 'bg-rose-500/20', 'text-rose-400');
+        icon.className = 'fa-solid fa-microphone text-sm';
+      };
+      recognition.start();
+    }
+    // Export Chat as Markdown or JSON
+    function exportCurrentChat(format = 'md') {
+      const chat = getCurrentChat();
+      if (!chat || chat.messages.length === 0) {
+        showToast('No messages in current chat to export', 'info');
+        return;
+      }
+      let content = '';
+      let mime = 'text/plain';
+      let ext = 'md';
+      if (format === 'json') {
+        content = JSON.stringify({
+          app: 'Paro AI',
+          creator: 'Dharmender Sharma',
+          exportedAt: new Date().toISOString(),
+          conversation: chat
+        }, null, 2);
+        mime = 'application/json';
+        ext = 'json';
+      } else {
+        content = `# ${chat.title}\n> **Paro AI** — Created by **Dharmender Sharma**\n> Exported: ${new Date().toLocaleString()}\n\n---\n\n` +
+          chat.messages.map(m => `### ${m.role === 'user' ? '🧑 You' : '✨ Paro AI'}\n\n${m.content}\n`).join('\n---\n\n');
+      }
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `paro-ai-chat-${Date.now()}.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`Exported conversation as .${ext}`, 'success');
+    }
+    // UI Helpers
+    function toggleSidebar(show) {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      if (show) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+    function autoResizeTextarea(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+      const countEl = document.getElementById('charCountLabel');
+      if (countEl) countEl.textContent = `${el.value.length} chars`;
+    }
+    function handleInputKeydown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+    function scrollToBottom(smooth = true) {
+      const container = document.getElementById('chatContainer');
+      if (!container) return;
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+    }
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const colors = {
+        success: 'border-emerald-500/40 bg-slate-900/95 text-emerald-300',
+        error: 'border-rose-500/40 bg-slate-900/95 text-rose-300',
+        info: 'border-sky-500/40 bg-slate-900/95 text-sky-300'
+      };
+      const icons = {
+        success: 'fa-circle-check',
+        error: 'fa-triangle-exclamation',
+        info: 'fa-wand-magic-sparkles'
+      };
+      const toast = document.createElement('div');
+      toast.className = `px-3.5 py-2.5 rounded-xl border shadow-xl backdrop-blur-md text-xs font-medium flex items-center gap-2 transition-all duration-300 ${colors[type] || colors.info}`;
+      toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i> <span>${escapeHtml(message)}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(6px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+  </script>
+</body>
+</html>
+```
